@@ -1,9 +1,17 @@
 const $ = selector => document.querySelector(selector);
 
 function App() {
+  $('#espresso-menu-list').addEventListener('click', e => {
+    if (e.target.classList.contains('menu-edit-button')) {
+      const $menuName = e.target.closest('li').querySelector('.menu-name');
+      const updatedMenu = prompt('Edit the menu name', $menuName.innerText);
+      $menuName.innerText = updatedMenu;
+    }
+  });
+
   $('#espresso-menu-form').addEventListener("submit", e => {
-      e.preventDefault();
-    });
+    e.preventDefault();
+  });
 
   const addMenu = () => {
     if ($('#espresso-menu-name').value === '') {
