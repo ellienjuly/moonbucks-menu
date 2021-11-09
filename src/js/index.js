@@ -1,19 +1,12 @@
 const $ = selector => document.querySelector(selector);
 
 function App() {
-  $('#espresso-menu-list').addEventListener('click', e => {
-    if (e.target.classList.contains('menu-edit-button')) {
-      const $menuName = e.target.closest('li').querySelector('.menu-name');
-      const updatedMenu = prompt('Edit the menu name', $menuName.innerText);
-      $menuName.innerText = updatedMenu;
-    }
-  });
+  const updateCounter = () => {
+    const menuCount = $('#espresso-menu-list').querySelectorAll('li').length;
+    $('.menu-count').innerText = `Total ${menuCount}`;
+  }
 
-  $('#espresso-menu-form').addEventListener("submit", e => {
-    e.preventDefault();
-  });
-
-  const addMenu = () => {
+  const addMenuName = () => {
     if ($('#espresso-menu-name').value === '') {
       alert('Please enter a menu');
       return;
@@ -39,20 +32,44 @@ function App() {
       'beforeend',
       menuItemTemplate(espressoMenuName)
     );
-    const menuCount = $('#espresso-menu-list').querySelectorAll('li').length;
-    $('.menu-count').innerText = `Total ${menuCount}`;
+    updateCounter();
     $('#espresso-menu-name').value = '';
   }
 
-  $('#espresso-menu-submit-button').addEventListener('click', () => {
-    addMenu();
-  })
+  const updateMenuName = e => {
+    const $menuName = e.target.closest('li').querySelector('.menu-name');
+    const updatedMenu = prompt('Edit the menu name', $menuName.innerText);
+    $menuName.innerText = updatedMenu;
+  }
+
+  const removeMenuName = e => {
+    if (confirm('Delete this menu?')) {
+      e.target.closest('li').remove();
+      updateCounter();
+    }
+  }
+  
+  $('#espresso-menu-list').addEventListener('click', e => {
+    if (e.target.classList.contains('menu-edit-button')) {
+      updateMenuName(e);
+    }
+
+    if (e.target.classList.contains('menu-remove-button')) {
+      removeMenuName(e);
+    }
+  });
+
+  $('#espresso-menu-form').addEventListener("submit", e => {
+    e.preventDefault();
+  });
+
+  $('#espresso-menu-submit-button').addEventListener('click', addMenuName);
 
   $('#espresso-menu-name').addEventListener("keypress", e => {
     if (e.key !== 'Enter') {
       return;
     }
-    addMenu();
+    addMenuName();
   });
 }
 
