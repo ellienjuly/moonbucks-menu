@@ -28,6 +28,8 @@ function App() {
           'beforeend',
           menuItemTemplate(espressoMenuName)
         );
+        const menuCount = $('#espresso-menu-list').querySelectorAll('li').length
+        $('.menu-count').innerText = `Total ${menuCount}`
       };
     });
 }
