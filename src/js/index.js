@@ -5,40 +5,46 @@ function App() {
       e.preventDefault();
     });
 
-  $('#espresso-menu-name').addEventListener("keypress", e => {
-    if (e.key !== 'Enter') {
-      return;
-    }
+  const addMenu = () => {
     if ($('#espresso-menu-name').value === '') {
       alert('Please enter a menu');
       return;
     }
-    if (e.key === 'Enter') {
-      const espressoMenuName = $('#espresso-menu-name').value
-      const menuItemTemplate = espressoMenuName => {
+    const espressoMenuName = $('#espresso-menu-name').value;
+    const menuItemTemplate = espressoMenuName => {
       return `
       <li class="menu-list-item d-flex items-center py-2">
-          <span class="w-100 pl-2 menu-name">${espressoMenuName}</span>
-          <button
-            type="button"
-            class="bg-gray-50 text-gray-500 text-sm mr-1 menu-edit-button">
-            Edit
-          </button>
-          <button
-            type="button"
-            class="bg-gray-50 text-gray-500 text-sm menu-remove-button">
-            Delete
-          </button>
-        </li>`;
-      };
-      $('#espresso-menu-list').insertAdjacentHTML(
-        'beforeend',
-        menuItemTemplate(espressoMenuName)
-      );
-      const menuCount = $('#espresso-menu-list').querySelectorAll('li').length;
-      $('.menu-count').innerText = `Total ${menuCount}`;
-      $('#espresso-menu-name').value = '';
+        <span class="w-100 pl-2 menu-name">${espressoMenuName}</span>
+        <button
+          type="button"
+          class="bg-gray-50 text-gray-500 text-sm mr-1 menu-edit-button">
+          Edit
+        </button>
+        <button
+          type="button"
+          class="bg-gray-50 text-gray-500 text-sm menu-remove-button">
+          Delete
+        </button>
+      </li>`;
     };
+    $('#espresso-menu-list').insertAdjacentHTML(
+      'beforeend',
+      menuItemTemplate(espressoMenuName)
+    );
+    const menuCount = $('#espresso-menu-list').querySelectorAll('li').length;
+    $('.menu-count').innerText = `Total ${menuCount}`;
+    $('#espresso-menu-name').value = '';
+  }
+
+  $('#espresso-menu-submit-button').addEventListener('click', () => {
+    addMenu();
+  })
+
+  $('#espresso-menu-name').addEventListener("keypress", e => {
+    if (e.key !== 'Enter') {
+      return;
+    }
+    addMenu();
   });
 }
 
