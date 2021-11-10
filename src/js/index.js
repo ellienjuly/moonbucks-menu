@@ -10,6 +10,9 @@ const store = {
 }
 
 function App() {
+  //state is something that change - total number, menu
+  this.menu = [];
+
   const updateCounter = () => {
     const menuCount = $('#espresso-menu-list').querySelectorAll('li').length;
     $('.menu-count').innerText = `Total ${menuCount}`;
@@ -21,10 +24,12 @@ function App() {
       return;
     }
     const espressoMenuName = $('#espresso-menu-name').value;
-    const menuItemTemplate = espressoMenuName => {
+    this.menu.push({ name: espressoMenuName });
+    store.setLocalStorage(this.menu);
+    const template = this.menu.map(item => {
       return `
       <li class="menu-list-item d-flex items-center py-2">
-        <span class="w-100 pl-2 menu-name">${espressoMenuName}</span>
+        <span class="w-100 pl-2 menu-name">${item.name}</span>
         <button
           type="button"
           class="bg-gray-50 text-gray-500 text-sm mr-1 menu-edit-button">
@@ -36,11 +41,15 @@ function App() {
           Delete
         </button>
       </li>`;
-    };
-    $('#espresso-menu-list').insertAdjacentHTML(
-      'beforeend',
-      menuItemTemplate(espressoMenuName)
-    );
+    })
+    .join();
+    
+
+    // $('#espresso-menu-list').insertAdjacentHTML(
+    //   'beforeend',
+    //   menuItemTemplate(espressoMenuName)
+    // );
+    $('#espresso-menu-list').innerHTML = template;
     updateCounter();
     $('#espresso-menu-name').value = '';
   }
@@ -82,4 +91,5 @@ function App() {
   });
 }
 
-App();
+// App();
+const app = new App();
