@@ -66,6 +66,9 @@ function App() {
 
   const removeMenuName = e => {
     if (confirm('Delete this menu?')) {
+      const menuId = e.target.closest('li').dataset.menuId;
+      this.menu.splice(menuId, 1);
+      store.setLocalStorage(this.menu);
       e.target.closest('li').remove();
       updateCounter();
     }
